@@ -1,0 +1,131 @@
+<html>
+<head>
+   <title>Bài 2</title>
+</head>
+
+<style>
+   * {
+      box-sizing: border-box;
+   }
+   .container {
+      margin-top: 50px;
+      margin-bottom: 50px;
+      margin-left: 20px;
+      width: 1300px;
+      overflow: hidden;
+   }
+   .o {
+      float: left;
+   }
+   .head {
+      float: left;
+      width: 50px;
+      height: 50px;
+      border: solid 1px;
+      background-color: orange;
+   }
+   .head:hover {
+      background: red;
+   }
+   .an {
+      position: absolute;
+   }
+   
+  
+
+</style>
+<body>
+   
+   <form onsubmit="return khoiTao()">
+      <input type="text" id="dong" placeholder="Số dòng" />
+      <input type="text" id="cot" placeholder="Số cột" />
+      <input type="submit" value="Xác nhận"/>
+   </form>
+   
+   <div class="container">
+
+   </div>
+
+</body>
+
+
+
+<script>
+   var container = document.querySelector('.container')
+
+   function khoiTao() {
+      container.innerHTML = ''
+      var dong = document.getElementById('dong').value
+      var cot = document.getElementById('cot').value
+      if(dong.match(/\D/) || cot.match(/\D/)) {
+         alert('Vui lòng nhập giá trị hợp lệ')
+      }
+      dong = parseInt(dong)
+      cot = parseInt(cot)
+      
+      
+      if(Number.isInteger(dong) === false || Number.isInteger(cot) === false) {
+         alert('Vui lòng nhập giá trị hợp lệ')
+      }
+      event.preventDefault()
+      var arr = []
+      for(let i = 0; i < cot; i++) {
+         arr.push(`<div class="head">${i}</div>`)
+      }
+      for(let i = cot; i < dong*cot + cot; i++) {
+         arr.push(`<div class="o" id="o${i}">${Math.floor((Math.random() * 1000) + 1)}</div>`)
+      }
+      arr = arr.join('')
+      container.style.width = `${50*cot}px`
+      //container.style.height = `${50*(dong + 1)}px`
+      container.innerHTML = arr
+      var oVuong = document.querySelectorAll('.o')
+      oVuong.forEach(o => {
+         o.style.width = '50px'
+         o.style.height = '50px'
+         o.style.border = 'solid 1px'
+      })
+      var tatCaO = document.querySelectorAll('.o')
+
+      if(tatCaO.length > 100) {
+         for(let i = 100*(cot + 1); i < tatCaO.length; i++) {
+            tatCaO[i].classList.add('an')
+            
+         }
+      }
+      var nhom = 100;
+      function cuon() {
+         
+         var b = document.body.scrollHeight
+         console.log(b)
+         if((window.scrollY + window.innerHeight) > 5280) {
+            
+            if(dong > nhom) {
+               let ab = nhom*cot+cot
+               nhom = nhom +100
+               for(let i = ab; i < nhom*cot+cot; i++) {
+                  
+                  tatCaO[i].classList.remove('an')
+               }
+               
+
+            }
+            else {
+               console.log('eeee')
+               for(let i = nhom*cot+cot; i < tatCaO.length; i++) {
+                  tatCaO[i].classList.remove('an')
+               }
+            }
+         }
+            
+         
+         
+      }
+
+      window.addEventListener('scroll', cuon);
+   }
+
+</script>
+
+
+</html>
